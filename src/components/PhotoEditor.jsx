@@ -618,7 +618,7 @@ export default function PhotoEditor({
                 {qrSrc ? (
                   <>
                     <div className="flex flex-col items-center gap-3">
-                      <img src={qrSrc} alt="QR code. Scan it with your phone camera to download your photo strip." className="h-44 w-44 shrink-0 rounded-lg bg-white p-2" />
+                      <img src={qrSrc} alt="QR code. Scan it with your phone camera to download your photo strip." className="h-auto w-44 max-w-full shrink-0 rounded-lg bg-white p-2" />
                       <p className="text-center text-sm text-oln-mute">Point your phone camera at the code and tap the link that appears. Your strip downloads straight to your phone.</p>
                       <a href={shareUrl} className="break-all text-center text-sm font-bold text-oln-pink underline underline-offset-4 min-h-[44px] inline-flex items-center">Download strip</a>
                     </div>
