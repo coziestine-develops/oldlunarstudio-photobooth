@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════════════════════════
+   Mobile layer — loaded after every component stylesheet.
+   1. The camera preview is a 40 × 50 cm portrait frame (4 : 5) on phones.
+   2. Gaps, paddings and margins are tightened so the screen is filled by the
+      camera and the photo slots, not by empty space.
+   Covers all three camera flows: classic booth, PairSnap, PhotoPop.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ───────── 1 · 40 × 50 cm camera (4 : 5), sized to fit the screen height ───────── */
+@media (max-width: 639px) {
+  .pb .cam-vf,
+  .pb .cam-s2 .cam-stage .cam-vf,
+  .ps-vf,
+  .pp-stage {
+    aspect-ratio: 4 / 5 !important;
+    height: auto !important;
+    max-height: none !important;
+    width: min(100%, calc(56vh * 0.8)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 20px !important;
+    box-shadow: 0 6px 0 var(--slab, rgba(242,235,231,.10)) !important;
+  }
+  @supports (height: 1dvh) {
+    .pb .cam-vf,
+    .pb .cam-s2 .cam-stage .cam-vf,
+    .ps-vf,
+    .pp-stage {
+      width: min(100%, calc(56dvh * 0.8)) !important;
+    }
+  }
+}
+
+/* ───────── 2 · Tight spacing on phones ───────── */
+@media (max-width: 639px) {
+  /* shared header and screen shell */
+  .pb-hd { padding-top: max(10px, env(safe-area-inset-top)); }
+  .pb-prog { margin-top: 10px; gap: 4px; }
+  .pb-screen { padding-top: 10px; padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+
+  /* classic booth · step 1 (Camera Settings / Get ready) */
+  .cam-s1 { gap: 10px; }
+  .cam-card, .pb-card { padding: 14px; gap: 12px; }
+  .cam-field { gap: 6px; }
+  .cam-hint { font-size: 12px; }
+  .cam-s1 .cam-card > .pb-btn:last-of-type { margin-top: 0; }
+
+  /* classic booth · step 2 (Photobooth) */
+  .cam-s2 { gap: 10px; }
+  .cam-stage { display: flex; flex-direction: column; align-items: stretch; }
+  .cam-ctrl { padding: 10px 0 0; gap: 8px; }
+  .cam-side { gap: 8px; }
+  .cam-strip { gap: 6px; padding: 10px; border-radius: 20px; }
+  .cam-slot { aspect-ratio: 4 / 3; height: auto; }
+  .cam-side .cam-strip { grid-template-rows: none; }
+
+  /* PairSnap · step 3 (Photobooth): camera, then the strip panel */
+  .ps-cam { gap: 10px; padding-top: 10px; padding-bottom: 14px; }
+  .ps-cam-main { gap: 0; }
+  .ps-panel { padding: 10px; border-radius: 22px; }
+  .ps-shots { gap: 8px; }
+  .ps-shot { aspect-ratio: 8 / 5; }
+  .ps-start { bottom: 10px; }
+  .ps-ref { top: 8px; left: 8px; }
+
+  /* PairSnap · step 2 (choose references) */
+  .ps-select { padding-top: 10px; }
+  .ps-sel-head { margin-bottom: 12px; }
+  .ps-cats { margin-bottom: 12px; }
+  .ps-grid { gap: 10px; }
+
+  /* PhotoPop · capture */
+  .pp-body { padding: 10px 12px 28px; }
+  .pp-shell .pb-hd { padding-top: 10px; }
+  .pp-shell .pb-prog { margin-top: 10px; }
+  .pp-step, .pp-capture { gap: 12px; }
+  .pp-cam-col { gap: 8px; }
+  .pp-slots-col { gap: 8px; }
+  .pp-slots { gap: 8px; }
+  .pp-slot { aspect-ratio: 4 / 3; min-height: 0; border-radius: 10px; }
+  .pp-cam-tools { gap: 8px; }
+  .pp-actions { gap: 8px; }
+  .pp-stage-start { bottom: 10px; }
+}
+
+/* very small phones: keep the 4 : 5 frame but give the controls a little more room */
+@media (max-width: 380px) {
+  .pb .cam-vf, .ps-vf, .pp-stage {
+    width: min(100%, calc(52vh * 0.8)) !important;
+  }
+  @supports (height: 1dvh) {
+    .pb .cam-vf, .ps-vf, .pp-stage {
+      width: min(100%, calc(52dvh * 0.8)) !important;
+    }
+  }
+}

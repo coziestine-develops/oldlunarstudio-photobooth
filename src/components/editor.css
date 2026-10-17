@@ -1,0 +1,55 @@
+/* Review screen (step 3) — shares tokens with camera.css (.pb) */
+.ed-wrap { display: block; }
+.rv { --bd: 3px; --edge: var(--c-24); --slab: var(--c-10);
+  width: 100%; max-width: 860px; margin: 0 auto; }
+.rv-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.rv-head h1 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+.rv-head p { margin-top: 6px; font-size: 14px; color: var(--c-62); }
+
+/* Header button (Continue) — same style as the Photobooth buttons */
+.rv-head .pb-btn { min-height: 50px; padding: 0 22px; background: var(--pink); color: var(--dark);
+  border: var(--bd) solid var(--pink); border-radius: 14px; box-shadow: 0 4px 0 var(--pink-24); font-weight: 800;
+  transition: transform .12s, box-shadow .12s, filter .15s; }
+@media (hover: hover) { .rv-head .pb-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 var(--pink-24); } }
+.rv-head .pb-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--pink-24); }
+
+/* Photo cards */
+.rv-grid { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding-bottom: 8px; }
+.rv-item { container-type: inline-size; min-width: 0; background: var(--c-06); border: var(--bd) solid var(--edge); border-radius: 26px; padding: 14px;
+  box-shadow: 0 8px 0 var(--slab); transition: border-color .2s, opacity .2s, box-shadow .2s; }
+.rv-item.is-over { border-color: var(--pink); box-shadow: 0 8px 0 var(--pink-24); }
+.rv-item.is-drag { opacity: .45; }
+.rv-img { position: relative; aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; cursor: grab; border: 2px solid var(--c-40); }
+.rv-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rv-n { position: absolute; left: 10px; bottom: 10px; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: rgba(25,21,22,.78); font-size: 12px; font-weight: 800; }
+
+/* Card buttons */
+.rv-bar { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-bottom: 6px; }
+.rv-retake, .rv-ic { border: var(--bd) solid var(--edge); border-radius: 14px; background: var(--c-06); color: var(--cream); box-shadow: 0 4px 0 var(--slab);
+  transition: transform .12s, box-shadow .12s, border-color .15s, background .15s; }
+.rv-retake { flex: 1; min-width: 0; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 800; line-height: 1; white-space: nowrap; overflow: hidden; }
+.rv-retake svg, .rv-ic svg { flex: none; }
+.rv-ic { flex: none; width: 48px; height: 48px; display: grid; place-items: center; }
+@media (hover: hover) { .rv-retake:hover, .rv-ic:hover:not(:disabled) { border-color: var(--pink); background: var(--pink-12); transform: translateY(-2px); box-shadow: 0 6px 0 var(--slab); } }
+.rv-retake:active, .rv-ic:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--slab); }
+.rv-ic:disabled { opacity: .3; cursor: not-allowed; box-shadow: 0 4px 0 var(--c-06); }
+
+@media (max-width: 480px) {
+  .rv-grid { gap: 16px; }
+  .rv-item { padding: 10px; border-radius: 20px; box-shadow: 0 6px 0 var(--slab); }
+  .rv-img { border-radius: 12px; }
+  .rv-bar { gap: 8px; margin-top: 12px; }
+  .rv-retake span { display: none; }
+  .rv-ic { width: 44px; height: 44px; }
+  .rv-retake { min-height: 44px; }
+  .rv-head .pb-btn { width: 100%; }
+}
+/* Narrow cards (2-up on phones / small tablets): compact controls so arrows and Retake fit evenly in one row */
+@container (max-width: 230px) {
+  .rv-bar { gap: 8px; margin-top: 12px; }
+  .rv-ic { width: 42px; height: 42px; border-radius: 12px; }
+  .rv-retake { min-height: 42px; gap: 6px; padding: 0 6px; font-size: 13px; border-radius: 12px; }
+  .rv-n { left: 8px; bottom: 8px; width: 24px; height: 24px; font-size: 11px; }
+}
+@container (max-width: 170px) { .rv-retake span { display: none; } }
+@media (prefers-reduced-motion: reduce) { .rv-item, .rv-retake, .rv-ic, .rv-head .pb-btn { transition: none; } }

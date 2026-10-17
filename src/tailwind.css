@@ -1,0 +1,16 @@
+/* ═══════════════════════════════════════════════════════════
+   Tailwind v4 — theme tokens + utilities.
+   Preflight is intentionally NOT imported: the existing reset in index.css
+   keeps the current look. Utilities are imported unlayered and last (see
+   main.jsx) so they win ties against the component stylesheets.
+   ═══════════════════════════════════════════════════════════ */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
+
+@theme {
+  --color-oln-dark:  #191516;
+  --color-oln-cream: #F2EBE7;
+  --color-oln-pink:  #EB6380;
+  --color-oln-edge:  rgba(242, 235, 231, 0.24);
+  --color-oln-mute:  rgba(242, 235, 231, 0.62);
+}

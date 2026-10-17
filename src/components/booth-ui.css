@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════════════════════
+   Booth UI — the Start button, the timer and the countdown live INSIDE the camera.
+   Every size is a fraction of the camera itself (container query units, cq),
+   so the controls scale with the preview on a phone, a tablet and a laptop alike.
+   Used by: classic booth (.cam-vf), PairSnap (.ps-vf), PhotoPop (.pp-stage).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* each camera is a size container: children can size themselves from its width / height */
+.cam-vf, .ps-vf, .pp-stage { container-type: size; }
+
+/* ── viewfinder corner brackets: a light "lens" frame over the picture ── */
+.cam-vf::after, .ps-vf::after, .pp-stage::after {
+  --cb: rgba(242, 235, 231, .8);
+  --cl: clamp(14px, 7cqmin, 30px);
+  content: ""; position: absolute; z-index: 3; inset: clamp(10px, 3.4cqmin, 22px);
+  pointer-events: none;
+  background:
+    linear-gradient(var(--cb), var(--cb)) top left / var(--cl) 3px no-repeat,
+    linear-gradient(var(--cb), var(--cb)) top left / 3px var(--cl) no-repeat,
+    linear-gradient(var(--cb), var(--cb)) top right / var(--cl) 3px no-repeat,
+    linear-gradient(var(--cb), var(--cb)) top right / 3px var(--cl) no-repeat,
+    linear-gradient(var(--cb), var(--cb)) bottom left / var(--cl) 3px no-repeat,
+    linear-gradient(var(--cb), var(--cb)) bottom left / 3px var(--cl) no-repeat,
+    linear-gradient(var(--cb), var(--cb)) bottom right / var(--cl) 3px no-repeat,
+    linear-gradient(var(--cb), var(--cb)) bottom right / 3px var(--cl) no-repeat;
+  opacity: .9;
+}
+
+/* ── control dock: a soft scrim along the bottom of the camera, holding timer + Start ── */
+.cam-vf .cam-ctrl,
+.ps-vf .ps-start,
+.pp-stage .pp-stage-start {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 7;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  gap: clamp(8px, 2.6cqmin, 14px);
+  padding: clamp(40px, 18cqmin, 96px) clamp(10px, 3.5cqmin, 22px) clamp(14px, 5cqmin, 26px);
+  background: linear-gradient(to top, rgba(25, 21, 22, .92) 0%, rgba(25, 21, 22, .66) 42%, rgba(25, 21, 22, 0) 100%);
+  pointer-events: none;
+}
+
+/* timer: a glass pill of seconds */
+.cam-vf .cam-timer--compact,
+.pp-stage .pp-timer {
+  display: flex; gap: 4px; width: auto; max-width: 100%; padding: 4px; border-radius: 999px;
+  background: rgba(25, 21, 22, .6); border: 1.5px solid rgba(242, 235, 231, .18);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .35);
+}
+.cam-vf .cam-timer--compact .cam-timer-b {
+  min-height: clamp(30px, 9cqmin, 38px); min-width: clamp(34px, 11cqmin, 46px); padding: 0 clamp(6px, 2cqmin, 10px);
+  border-radius: 999px; font-size: clamp(12px, 3.6cqmin, 15px);
+}
+.cam-vf .cam-timer--compact .cam-timer-b[aria-checked="true"] { box-shadow: 0 2px 10px rgba(235, 99, 128, .45); }
+.pp-stage .pp-timer .pp-chip {
+  min-height: clamp(30px, 9cqmin, 38px); min-width: 0; padding: 0 clamp(9px, 3cqmin, 14px);
+  border-width: 0; border-radius: 999px; font-size: clamp(12px, 3.6cqmin, 15px); font-weight: 700;
+  background: transparent;
+}
+.pp-stage .pp-timer .pp-chip.is-active { background: var(--pink, #EB6380); color: var(--dark, #191516); box-shadow: 0 2px 10px rgba(235, 99, 128, .45); }
+
+/* the big Start / Edit button: a pink pill that breathes */
+.cam-vf .cam-go,
+.ps-vf .ps-start .pb-btn,
+.pp-stage .pp-stage-start .pp-btn {
+  pointer-events: auto;
+  display: inline-flex; align-items: center; justify-content: center; gap: clamp(6px, 2cqmin, 10px);
+  min-height: clamp(44px, 14cqmin, 62px); min-width: clamp(130px, 42cqmin, 200px);
+  padding: 0 clamp(18px, 6cqmin, 30px);
+  border-radius: 999px; border: 3px solid var(--dark, #191516); background: var(--pink, #EB6380); color: var(--dark, #191516);
+  font-family: inherit; font-size: clamp(14px, 4.8cqmin, 18px); font-weight: 800; letter-spacing: .02em; line-height: 1; white-space: nowrap;
+  box-shadow: 0 5px 0 var(--dark, #191516), 0 0 0 0 rgba(235, 99, 128, .5);
+  animation: boothPulse 2.6s ease-in-out infinite;
+  transition: transform .12s ease, box-shadow .12s ease, filter .15s ease;
+}
+.cam-vf .cam-go:hover:not(:disabled),
+.ps-vf .ps-start .pb-btn:hover:not(:disabled),
+.pp-stage .pp-stage-start .pp-btn:hover:not(:disabled) { filter: brightness(1.06); }
+.cam-vf .cam-go:active:not(:disabled),
+.ps-vf .ps-start .pb-btn:active:not(:disabled),
+.pp-stage .pp-stage-start .pp-btn:active:not(:disabled) {
+  transform: translateY(3px); box-shadow: 0 2px 0 var(--dark, #191516); animation: none;
+}
+.cam-vf .cam-go:disabled, .pp-stage .pp-stage-start .pp-btn:disabled { opacity: .5; animation: none; }
+.cam-vf .cam-go svg { width: clamp(16px, 5cqmin, 20px); height: auto; }
+@keyframes boothPulse {
+  0%, 100% { box-shadow: 0 5px 0 var(--dark, #191516), 0 0 0 0 rgba(235, 99, 128, .5); }
+  60%      { box-shadow: 0 5px 0 var(--dark, #191516), 0 0 0 12px rgba(235, 99, 128, 0); }
+}
+
+/* ── countdown: sized from the camera, so it reads well on a phone and on a big screen ── */
+.cam-vf .cd, .ps-vf .cd, .pp-stage .cd {
+  gap: clamp(8px, 3cqmin, 16px);
+  background: radial-gradient(circle at 50% 50%, rgba(25, 21, 22, .15) 0%, rgba(25, 21, 22, .72) 100%);
+}
+.cam-vf .cd-ring, .ps-vf .cd-ring { width: min(60cqmin, 240px); }
+.cam-vf .cd-ring circle.p, .ps-vf .cd-ring circle.p { stroke-width: 5; }
+.cam-vf .cd-num, .ps-vf .cd-num { font-size: min(34cqmin, 160px); }
+.pp-stage .pp-count { font-size: min(52cqmin, 200px); }
+.cam-vf .cd-pill, .ps-vf .cd-pill {
+  height: auto; padding: clamp(5px, 1.5cqmin, 8px) clamp(10px, 3.4cqmin, 16px);
+  font-size: clamp(11px, 3.4cqmin, 14px); background: rgba(25, 21, 22, .8);
+}
+.cam-vf .cd-cancel, .ps-vf .cd-cancel, .ps-cancel {
+  height: clamp(34px, 9.5cqmin, 42px); padding: 0 clamp(12px, 4cqmin, 18px);
+  font-size: clamp(12px, 3.6cqmin, 14px); border-radius: 999px;
+}
+.ps-cancel { position: absolute; bottom: clamp(14px, 5cqmin, 26px); }
+
+/* a little more presence on a laptop */
+@media (min-width: 901px) {
+  .cam-vf .cam-go, .ps-vf .ps-start .pb-btn, .pp-stage .pp-stage-start .pp-btn { min-width: 190px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cam-vf .cam-go, .ps-vf .ps-start .pb-btn, .pp-stage .pp-stage-start .pp-btn { animation: none; }
+}
