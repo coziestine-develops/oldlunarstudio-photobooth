@@ -1,10 +1,12 @@
 /**
  * GET /api/download/<file> — downloads a shared strip while its 24-hour window is open.
  *
- * Expiry is checked here, so a link stops working on time even before the cleanup job
- * deletes the file. Valid links redirect to the file's download URL, which the browser saves.
+ * The strip is a PRIVATE blob, so this function reads it and streams it to the phone with a
+ * download header. Expiry is checked here too, so a link stops working on time even before the
+ * cleanup job deletes the file.
  */
-import { head } from '@vercel/blob';
+import { get } from '@vercel/blob';
+import { Readable } from 'node:stream';
 import { PREFIX, isExpired } from '../../lib/strips.js';
 
 function page(res, status, title, text) {
@@ -31,13 +33,23 @@ export default async function handler(req, res) {
     return page(res, 410, 'This link has expired', 'Shared strips are available for 24 hours. Ask for a new QR code.');
   }
 
+  let result;
   try {
-    const info = await head(PREFIX + name);
-    res.setHeader('Cache-Control', 'no-store');
-    res.statusCode = 302;
-    res.setHeader('Location', info.downloadUrl || info.url);
-    return res.end();
-  } catch {
+    result = await get(PREFIX + name, { access: 'private' });
+  } catch (err) {
+    console.error('download: could not read strip', err);
+    return page(res, 500, 'Something went wrong', 'The strip could not be loaded right now. Please try again in a moment.');
+  }
+  if (!result || result.statusCode !== 200 || !result.stream) {
     return page(res, 404, 'Link not found', 'This strip has been removed.');
   }
+
+  const isPng = name.endsWith('.png');
+  res.statusCode = 200;
+  res.setHeader('Content-Type', isPng ? 'image/png' : 'image/jpeg');
+  res.setHeader('Content-Disposition', `attachment; filename="oldlunar-strip.${isPng ? 'png' : 'jpg'}"`);
+  res.setHeader('Cache-Control', 'no-store');
+  if (req.method === 'HEAD') return res.end();
+
+  Readable.fromWeb(result.stream).on('error', () => res.destroy()).pipe(res);
 }

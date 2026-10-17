@@ -1,9 +1,10 @@
 /**
  * POST /api/share — stores one strip image and returns a link that downloads it.
  *
- * The body is the raw image (Content-Type image/jpeg or image/png). The file is saved
- * to Vercel Blob. The returned downloadUrl points at /api/download/<file>, which sends
- * the file as a download and stops working after 24 hours (see lib/strips.js).
+ * The body is the raw image (Content-Type image/jpeg or image/png). The file is stored
+ * as a PRIVATE blob (nobody can open its address directly). The returned downloadUrl
+ * points at /api/download/<file>, which streams the file to the phone as a download and
+ * stops working after 24 hours (see lib/strips.js).
  *
  * Needs a Blob store connected to the Vercel project (sets BLOB_READ_WRITE_TOKEN).
  */
@@ -52,7 +53,7 @@ export default async function handler(req, res) {
     const uploadedAt = Date.now();
     const file = `${uploadedAt}-${randomUUID()}.${ext}`;
     await put(PREFIX + file, body, {
-      access: 'public',
+      access: 'private',
       contentType: type,
       addRandomSuffix: false,
     });
@@ -66,6 +67,10 @@ export default async function handler(req, res) {
   } catch (err) {
     const status = err.status || 500;
     if (status >= 500) console.error('share upload failed', err);
+    if (status >= 500 && /access|private|public/i.test(String(err?.message))) {
+      // the Blob store exists but rejects this kind of upload (e.g. a public-only store)
+      return res.status(500).json({ error: 'Storage rejected the upload', code: 'store_access_mismatch' });
+    }
     return res.status(status).json({ error: status === 413 ? 'File too large' : 'Upload failed', code: status === 413 ? 'too_large' : 'upload_failed' });
   }
 }

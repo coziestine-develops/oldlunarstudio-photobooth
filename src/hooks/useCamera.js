@@ -237,13 +237,18 @@ export function useCamera() {
 
   const clearNotice = useCallback(() => setNotice(null), []);
 
-  // No mirroring anywhere: the preview and the saved photo show the camera image exactly as it is.
   const isTouch = isTouchDevice();
+
+  // Front camera → the preview and the saved photo are mirrored (like a mirror / selfie view).
+  // Rear camera → shown and saved exactly as the lens sees it. The flag lives on the <video> itself, so the
+  // CSS preview (video[data-mirror="1"]) and the frame grab (grabFrame) always agree with each other.
+  const mirror = facing === 'user';
 
   // Re-attach only if the <video> got a different/empty source (e.g. after a screen change).
   // Must NOT touch srcObject when it is already correct: setting it again restarts playback.
   useEffect(() => {
     const v = videoRef.current, s = streamRef.current;
+    if (v) v.dataset.mirror = mirror ? '1' : '0';
     if (v && s && v.srcObject !== s) { v.srcObject = s; v.play?.().catch(() => {}); }
   });
   useEffect(() => {

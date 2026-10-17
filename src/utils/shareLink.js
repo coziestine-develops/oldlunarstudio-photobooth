@@ -45,6 +45,9 @@ async function explain(res) {
   if (body.code === 'storage_not_connected') {
     return 'Sharing storage is not connected to this website yet. The site owner needs to add a Blob store in Vercel (Storage → Create → Blob) and connect it to this project, then redeploy. You can still download the strip below.';
   }
+  if (body.code === 'store_access_mismatch') {
+    return 'The sharing storage rejected the upload. The site owner should check that the Blob store is a private store, then redeploy. You can still download the strip below.';
+  }
   if (res.status === 413) return 'The strip is too large to upload. Try fewer or smaller photos.';
   if (res.status === 404 || res.status === 405) {
     return 'The download service is not running at this address. It only works on the published website, not in local development.';

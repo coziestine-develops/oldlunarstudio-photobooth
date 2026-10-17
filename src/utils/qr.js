@@ -2,7 +2,7 @@
 import QRCode from 'qrcode';
 
 /* Where the code points. Photos never leave the device, so the code links to the app itself. */
-export const OLDLUNAR_URL = 'https://oldlunar-photobooth.vercel.app/';
+export const OLDLUNAR_URL = 'https://oldlunarstudio-photobooth.vercel.app/';
 
 const QR_PINK = '#D93A64';
 const matrixCache = new Map();

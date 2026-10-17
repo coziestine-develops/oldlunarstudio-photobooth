@@ -43,8 +43,11 @@ export function grabFrame(videoEl) {
   const canvas = document.createElement('canvas');
   canvas.width = sw; canvas.height = sh;
   const ctx = canvas.getContext('2d');
-  // No mirroring: the saved photo is exactly the camera image, the same way the preview shows it.
+  // Front camera (data-mirror="1", kept in sync by useCamera): flip the frame like a mirror, so the saved
+  // photo is exactly what the guest saw on screen. Rear camera: drawn as it is.
+  if (videoEl.dataset?.mirror === '1') { ctx.setTransform(-1, 0, 0, 1, sw, 0); }
   ctx.drawImage(videoEl, sx, sy, sw, sh, 0, 0, sw, sh);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
   return canvas;
 }
 

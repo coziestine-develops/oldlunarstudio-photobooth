@@ -133,7 +133,7 @@
 .fo-link--reset:disabled { opacity: .4; text-decoration: none; cursor: default; }
 .fo-link--reset:disabled:hover { color: var(--c-62); }
 
-.fo-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: var(--c-06); border: 2px solid var(--edge); }
+.fo-tabs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding: 4px; border-radius: 14px; background: var(--c-06); border: 2px solid var(--edge); }
 .fo-tab { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 8px; border-radius: 10px; border: 2px solid transparent; background: none; color: var(--c-62);
   font-size: 13px; font-weight: 700; transition: background .15s, color .15s, border-color .15s; }
 @media (hover: hover) { .fo-tab:hover:not([aria-selected="true"]) { color: var(--cream); border-color: var(--pink); } }
@@ -167,3 +167,13 @@
 @media (max-width: 480px) { .fo-thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); } .fo-tab svg { display: none; } .fo-look-hd { flex-wrap: wrap; } }
 @media (max-width: 380px) { .fo-thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .fo-tp, .fo-th-i img, .fo-th-ck { animation: none !important; } }
+/* Four look tabs (Styles · Frames · Layouts · Backgrounds) share one row on every width.
+   On narrow phones the label wraps to two lines instead of being cut off with an ellipsis. */
+@media (max-width: 480px) {
+  .fo-tabs { gap: 3px; padding: 3px; }
+  .fo-tab { min-height: 46px; padding: 4px 2px; font-size: 11.5px; line-height: 1.15; letter-spacing: -.01em; }
+  .fo-tab span { white-space: normal; overflow: visible; text-overflow: clip; text-align: center; overflow-wrap: normal; word-break: normal; }
+}
+@media (max-width: 380px) {
+  .fo-tab { font-size: 10px; padding: 4px 1px; }
+}

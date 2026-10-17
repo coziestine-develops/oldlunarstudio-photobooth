@@ -94,3 +94,93 @@
     }
   }
 }
+
+/* ───────── 3 · Landscape phones (short screens): the booth fits the screen, START stays visible ─────────
+   Phones turned sideways are less than 520px tall. The camera and the photo strip sit side by side and
+   share the screen height, so nothing is pushed below the fold. Only the booth screens (step 1 and 2) are
+   fixed to the viewport; the session review and the editor keep scrolling. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .app-photobooth:has(.cam-s2),
+  .app-photobooth:has(.cam-s1) { height: 100vh; height: 100dvh; min-height: 0; }
+  .app-photobooth:has(.cam-s2) { overflow: hidden; }
+  .app-photobooth:has(.cam-s2) .app-pb-body,
+  .app-photobooth:has(.cam-s1) .app-pb-body { min-height: 0; overflow: hidden; }
+  .app-photobooth:has(.cam-s2) .pb-screen,
+  .app-photobooth:has(.cam-s1) .pb-screen {
+    display: flex; flex-direction: column; min-height: 0; flex: 1 1 0;
+    padding: 8px max(12px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  .pb-hd { padding-top: max(6px, env(safe-area-inset-top)); padding-bottom: 6px; }
+  .pb-prog { margin-top: 8px; }
+
+  /* step 2 — camera on the left, photo strip on the right, both filling the height */
+  .app-photobooth .cam-s2 {
+    flex: 1 1 0; min-height: 0; height: auto; max-width: none; margin: 0; width: 100%;
+    display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(128px, 178px) !important;
+    gap: 12px !important; align-items: stretch !important; justify-content: stretch;
+    --spad: 8px; --sgap: 6px;
+  }
+  .app-photobooth .cam-s2 .cam-stage { min-height: 0; height: 100%; display: flex; flex-direction: column; }
+  .app-photobooth .cam-s2 .cam-stage .cam-vf,
+  .app-photobooth .cam-s2 .cam-vf {
+    flex: 1 1 0; min-height: 0; height: auto !important; width: 100% !important;
+    aspect-ratio: auto !important; max-height: none !important; margin: 0 !important;
+    border-radius: 18px !important; box-shadow: 0 5px 0 var(--slab, rgba(242,235,231,.10)) !important;
+  }
+  .app-photobooth .cam-s2 .cam-side { width: auto; height: 100%; min-height: 0; gap: 0; }
+  .app-photobooth .cam-s2 .cam-strip {
+    flex: 1 1 0; min-height: 0; flex-direction: initial;
+    display: grid; grid-template-columns: minmax(0, 1fr) !important; grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+    padding: var(--spad); gap: var(--sgap); border-radius: 18px;
+  }
+  .app-photobooth .cam-s2 .cam-slot { aspect-ratio: auto !important; height: auto !important; min-height: 0; }
+  .app-photobooth .cam-s2 .cam-ctrl { padding: 0; gap: 6px; }
+  .app-photobooth .cam-s2 .cam-start { bottom: 10px; }
+  .app-photobooth .cam-s2 .cam-start .pb-btn { min-height: 44px; min-width: 128px; font-size: 13px; }
+  .app-photobooth .cam-s2 .cam-tool { height: 36px; min-width: 36px; width: auto; padding: 0 8px; }
+  .app-photobooth .cam-s2 .cam-tool span { display: none; }
+
+  /* step 1 — camera setup: preview on the left, settings card on the right (card scrolls if it must) */
+  .app-photobooth .cam-s1 {
+    flex: 1 1 0; min-height: 0; width: 100%; max-width: none; margin: 0; height: auto;
+    display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(220px, 290px) !important;
+    gap: 12px !important; align-items: stretch !important;
+  }
+  .app-photobooth .cam-s1 .cam-vf {
+    min-height: 0 !important; height: 100% !important; width: 100% !important;
+    aspect-ratio: auto !important; border-radius: 18px !important; margin: 0 !important; max-height: none !important;
+  }
+  .app-photobooth .cam-s1 .cam-card { min-height: 0; overflow-y: auto; padding: 12px; gap: 10px; }
+  .app-photobooth .cam-s1 .cam-card > .pb-btn:last-of-type { margin-top: 0; }
+  .app-photobooth .cam-s1 .cam-card .pb-eyebrow,
+  .app-photobooth .cam-s1 .cam-card .cam-hint--left { display: none; }
+  .app-photobooth .cam-s1 .cam-card h2 { font-size: 22px; line-height: 1.2; }
+  .app-photobooth .cam-s1 .cam-card .pb-label { font-size: 12px; }
+  .app-photobooth .cam-s1 .cam-card .cam-timer-b { min-height: 34px; }
+  .app-photobooth .cam-s1 .cam-card .cam-row { min-height: 44px; padding: 8px 14px; }
+  .app-photobooth .cam-s1 .cam-card .pb-btn { min-height: 44px; }
+}
+
+/* ───────── 4 · Landscape phones · PairSnap capture (step 3): camera left, photo panel right ───────── */
+@media (orientation: landscape) and (max-height: 520px) {
+  .ps-shell:has(.ps-cam) { height: 100vh; height: 100dvh; overflow: hidden; }
+  .ps-shell:has(.ps-cam) .ps-body { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+  .ps-shell .ps-cam {
+    flex: 1 1 0; min-height: 0; height: auto; width: 100%; max-width: none; margin: 0;
+    display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(128px, 178px) !important;
+    gap: 12px !important; align-items: stretch !important; justify-content: stretch;
+    padding: 8px max(12px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)) !important;
+    --spad: 8px; --sgap: 6px;
+  }
+  .ps-shell .ps-cam-main { height: 100%; min-height: 0; }
+  .ps-shell .ps-vf {
+    height: 100% !important; width: 100% !important; aspect-ratio: auto !important; max-height: none !important;
+    flex: 1 1 0; min-height: 0; margin: 0 !important; border-radius: 18px !important;
+    box-shadow: 0 5px 0 var(--slab, rgba(242,235,231,.10)) !important;
+  }
+  .ps-shell .ps-panel { height: 100% !important; width: auto !important; min-width: 0; flex: none; align-self: stretch; padding: 8px !important; border-radius: 18px !important; }
+  .ps-shell .ps-shots { flex: 1 1 0 !important; min-height: 0; grid-template-columns: minmax(0, 1fr) !important; grid-template-rows: repeat(4, minmax(0, 1fr)) !important; grid-auto-rows: auto; gap: 6px !important; }
+  .ps-shell .ps-shot { aspect-ratio: auto !important; height: auto; min-height: 0; }
+  .ps-shell .ps-start { bottom: 10px; }
+  .ps-shell .ps-start .pb-btn { min-height: 44px; font-size: 13px; }
+}
