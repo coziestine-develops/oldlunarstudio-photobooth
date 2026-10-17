@@ -51,9 +51,9 @@ export async function qrDataUrl(text = OLDLUNAR_URL, px = 640) {
   ctx.drawImage(img, 0, 0);
 
   ctx.fillStyle = QR_PINK;
-  ctx.font = `700 ${Math.round(px * 0.075)}px Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`;
+  ctx.font = `700 ${Math.round(px * 0.055)}px Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('OLDLUNAR STUDIO', canvas.width / 2, img.height + labelH / 2);
+  ctx.fillText('OldLunar Studio', canvas.width / 2, img.height + labelH / 2);
   return canvas.toDataURL('image/png');
 }
