@@ -42,6 +42,7 @@ const FAQ_ITEMS = [
   { q: 'Can I retake my photos?', a: 'Yes. On the review screen you can retake any single shot, or start another session and try again until you get the perfect set.' },
   { q: 'What can I customize?', a: 'Pick one of 8 filters, then fine-tune brightness, contrast, saturation and grain. Choose a frame, background color and pattern, add a name, caption, date and decorations, and adjust spacing, padding, border and corners.' },
   { q: 'Can I download my photo strip?', a: 'Yes! In the final output you can save your finished strip as a high-resolution PNG, share it, or print it straight from your device.' },
+  { q: 'Can I share my strip with a QR code?', a: 'Yes. Create a QR code and anyone can scan it with a phone to download your strip. The link works for 24 hours, then the copy is deleted.' },
 ];
 
 /* ── FAQ: one open at a time, height animation via grid rows ── */
@@ -367,11 +368,11 @@ export default function LandingPage({ onStart, onStartPairSnap, onStartPhotoPop,
               Eight colour looks, from natural to dramatic. Skin tones and facial details stay natural.
             </Feature>
             <Feature icon="layout" title="Strip & layouts"
-              points={['Four photos in a classic strip', 'Four-frame grid, postcard and Polaroid prints', 'Layout presets to start from', 'Try any layout on your own photos']}>
+              points={['Four photos per strip', 'Six layout presets: Classic Vertical, Retro Film, Four-Frame Grid, Postcard, Polaroid Prints and Minimal Cream', 'Start from a preset, then adjust spacing, padding and borders', 'Try any layout on your own photos']}>
               One session, several ways to arrange it.
             </Feature>
             <Feature icon="timer" title="Custom timer"
-              points={['3, 5, 7, 10 or 15 seconds before each photo', 'Default is 5 seconds', 'Cancel the countdown with Esc', 'PhotoPop also offers an instant option']}>
+              points={['3, 5, 7, 10 or 15 seconds before each photo', 'Default is 5 seconds', 'Cancel the countdown with Esc', 'PhotoPop also offers an instant option (no countdown)']}>
               Set the pace for every shot.
             </Feature>
             <Feature icon="wand" title="Photo editor"
@@ -383,11 +384,11 @@ export default function LandingPage({ onStart, onStartPairSnap, onStartPhotoPop,
               Frame and background are chosen separately.
             </Feature>
             <Feature icon="sticker" title="Text, date & stickers"
-              points={['Caption and text, placed at the top or bottom', 'Text sizes: Small, Medium and Large', '4 date formats, or no date', '6 stickers (star, heart, sparkle, crown, moon, camera) in 3 colours and 3 sizes']}>
+              points={['Caption and text, placed at the top or bottom', 'Text sizes: Small, Medium and Large', '4 date formats, or no date', '6 stickers (star, heart, sparkle, crown, moon, camera) in 3 colours, resizable from small to large']}>
               Make the strip personal.
             </Feature>
             <Feature icon="image" title="Download, share or print"
-              points={['Download a high-resolution PNG', 'Print straight from the editor', 'Share through your device’s share sheet', 'QR code: uploads a copy of the strip for a temporary download link']}>
+              points={['Download a high-resolution PNG', 'Print straight from the editor', 'Share through your device’s share sheet', 'QR code: anyone can scan it to download the strip. The link works for 24 hours']}>
               Keep your strip in the format you need.
             </Feature>
             <Feature icon="images" title="Review & retake"
@@ -395,7 +396,7 @@ export default function LandingPage({ onStart, onStartPairSnap, onStartPhotoPop,
               Check every shot before you finish.
             </Feature>
             <Feature icon="camera" title="Front & back camera"
-              points={['Switch cameras when your device has both', 'Runs in your browser, nothing to install']}>
+              points={['Switch between front and back cameras on phones and on laptops with several cameras', 'The front camera is mirrored, like a selfie mirror, and the saved photo matches the preview', 'Runs in your browser, nothing to install']}>
               Use whichever camera suits the moment.
             </Feature>
           </div>
@@ -412,8 +413,8 @@ export default function LandingPage({ onStart, onStartPairSnap, onStartPhotoPop,
               <div>
                 <h2 id="privacy-heading" className="lp-privacy-title">Your photos stay with you</h2>
                 <p className="lp-privacy-desc">
-                  Photos are processed in your browser and never uploaded by the app.
-                  Nothing leaves your device unless you choose to download it.
+                  Photos are processed in your browser. A copy of a strip is uploaded only when you
+                  create a QR download link, and it is deleted after 24 hours. Nothing else leaves your device.
                 </p>
               </div>
             </div>
